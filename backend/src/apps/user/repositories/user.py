@@ -93,7 +93,10 @@ class UserRepository:
 
         result = (await self.session.execute(stmt)).scalar_one_or_none()
 
-        return self._get_dto(result) if result is not None else None
+        if result is None:
+            raise UserNotFound()
+
+        return self._get_dto(result)
 
     async def get_list(self, limit: int = None, offset: int = None) -> List[UserDTO]:
         """

@@ -1,5 +1,5 @@
 from pydantic import BaseModel, EmailStr, constr
-from typing import Optional
+from typing import Optional, List
 
 
 class UserDTO(BaseModel):
@@ -29,3 +29,10 @@ class UserPropertyDTO(BaseModel):
 class UpdateUserPropertyDTO(BaseModel):
     key: constr(max_length=25) = None
     value: constr(max_length=30) = None
+
+class UserProfileDTO(BaseModel):
+    id: Optional[int]
+    name: constr(max_length=30)
+    login: constr(max_length=50)
+    email: EmailStr = None
+    properties: List[UserPropertyDTO] = []
