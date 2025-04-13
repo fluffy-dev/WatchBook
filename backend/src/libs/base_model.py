@@ -9,6 +9,14 @@ class Base(DeclarativeBase):
     Basic SqlAlchemy Model
 
     fields:
+
+
+    :param id: int
+    :param created_at: timestamp - static
+    :param updated_at: timestamp - dynamic
+
+
+    fields description:
     - id: autoincrement int
     - created_at: datetime - creates and updates once
     - updated_at: datetime - creates once and updates every time
