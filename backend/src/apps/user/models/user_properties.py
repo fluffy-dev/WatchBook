@@ -4,7 +4,7 @@ from sqlalchemy.orm import mapped_column, Mapped
 from src.libs.base_model import Base
 
 
-class UserProperties(Base):
+class UserPropertyModel(Base):
     """
 
     Model for external user properties

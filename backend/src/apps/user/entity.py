@@ -7,3 +7,10 @@ class UserEntity:
     email: str
     login: str
     password: str
+
+
+class UserPropertyEntity:
+    key: str
+    value: str
+
+    user_id: int

@@ -19,3 +19,13 @@ class UpdateUserDTO(BaseModel):
     name: constr(max_length=30)
     login: constr(max_length=50)
 
+
+class UserPropertyDTO(BaseModel):
+    id: Optional[int] = None
+    key: constr(max_length=25)
+    value: constr(max_length=30)
+    user_id: int
+
+class UpdateUserPropertyDTO(BaseModel):
+    key: constr(max_length=25) = None
+    value: constr(max_length=30) = None
