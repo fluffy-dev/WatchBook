@@ -18,12 +18,64 @@ class UserService:
         self.user_property_repository = user_property_repository
 
     async def create_user(self, user_entity: UserEntity) -> UserDTO:
+        """
+
+        Function to create a new user.
+
+        UserEntity:
+            #. name: str.
+            #. email: str.
+            #. login: str.
+            #. password: str.
+
+        :param user_entity: UserEntity
+
+        UserDTO:
+            #. id :int.
+            #. email: str.
+            #. login: str.
+            #. email: str.
+            #. password: str.
+
+        :return: UserDTO
+
+        :raises AnyException: from repository
+        """
         return await self.user_repository.create(user_entity)
 
     async def update_user(self, dto: UpdateUserDTO) -> UserDTO:
+        """
+        Function to  update a user via UpdateUserDTO.
+
+        UpdateUserDTO fields:
+            #. name: str.
+            #. login: str.
+
+
+        :param dto: UpdateUserDTO
+
+        UserDTO fields:
+            #. id :int.
+            #. email: str.
+            #. login: str.
+            #. email: str.
+            #. password: str.
+
+        :return: UserDTO
+
+        :raises AnyException: from repository
+        """
         return await self.user_repository.update(dto)
 
     async def delete_user(self, pk: int) -> None:
+        """
+        Function to  delete a user via FindUserDTO.
+
+        :param pk:
+        :return:
+
+        :raises AnyException: from repository
+        """
         await self.user_repository.delete(pk)
 
     async def list_users(self, limit: int = None, offset: int = None) -> List[UserDTO]:

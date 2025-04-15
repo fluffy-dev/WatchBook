@@ -35,7 +35,7 @@ class UserRepository:
 
         Function to create a new user from user_entity
 
-        UserEntity fields:
+        UserEntity:
             #. name: str.
             #. email: str.
             #. login: str.
@@ -43,7 +43,7 @@ class UserRepository:
 
         :param user: UserEntity
 
-        UserDTO fields:
+        UserDTO:
             #. id :int.
             #. email: str.
             #. login: str.
@@ -51,6 +51,8 @@ class UserRepository:
             #. password: str.
 
         :return: UserDTO
+
+        :raises AlreadyExistError: if user with same credentials (email or login) already exists
 
         """
         instance = UserModel(**user.__dict__)
@@ -71,7 +73,7 @@ class UserRepository:
 
         Function to get a user by FindUserDTO fields
 
-        FindUserDTO fields:
+        FindUserDTO:
             #. id : int.
             #. email: str.
             #. login: str.
@@ -79,7 +81,7 @@ class UserRepository:
 
         :param dto: FindUserDTO
 
-        UserDTO fields:
+        UserDTO:
             #. id :int.
             #. email: str.
             #. login: str.
@@ -87,6 +89,8 @@ class UserRepository:
             #. password: str.
 
         :return: UserDTO
+
+        :raises UserNotFound: if user with credentials (email or login) doesn't exist
         """
 
         stmt = select(UserModel).filter_by(**dto.model_dump(exclude_none=True))
@@ -109,7 +113,7 @@ class UserRepository:
 
         if you don't provide offset, you will get users from first.
 
-        UserDTO fields:
+        UserDTO:
             #. id :int.
             #. email: str.
             #. login: str.
@@ -146,6 +150,8 @@ class UserRepository:
             #. password: str.
 
         :return: UserDTO
+
+        :raises UserNotFound: if user with this PK/ID doesn't exist
         """
         stmt = (
             update(UserModel)
@@ -189,6 +195,9 @@ class UserRepository:
         :param new_password: str
         :param pk: int
         :return: UserDTO
+
+        :raises UserNotFound: if user with this PK/ID doesn't exist
+
         """
 
         stmt = (
