@@ -1,8 +1,8 @@
 from fastapi import APIRouter
 
-from src.apps.user.dto import UserDTO, UserProfileDTO
-from src.apps.user.entity import UserEntity
-from src.apps.user.dependencies.service import IUserService
+from src.user.dto import UserDTO, UserProfileDTO
+from src.user.entity import UserEntity
+from src.user.dependencies.service import IUserService
 
 router = APIRouter(prefix="/user", tags=["user"])
 

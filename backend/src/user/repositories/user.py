@@ -3,11 +3,11 @@ from typing import Optional, List, Type
 from sqlalchemy import select, update, delete
 from sqlalchemy.exc import IntegrityError
 
-from src.apps.user.exceptions import AlreadyExistError, UserNotFound
-from src.apps.user.entity import UserEntity
+from src.user.exceptions import AlreadyExistError, UserNotFound
+from src.user.entity import UserEntity
 from src.config.database.session import ISession
-from src.apps.user.models.user import UserModel
-from src.apps.user.dto import UpdateUserDTO, UserDTO, FindUserDTO
+from src.user.models.user import UserModel
+from src.user.dto import UpdateUserDTO, UserDTO, FindUserDTO
 
 
 class UserRepository:

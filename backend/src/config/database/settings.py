@@ -21,7 +21,7 @@ class Settings(BaseSettings):
         """ URL to connect (DSN)"""
         return PostgresDsn(
             f"{self.db_url_scheme}://{self.db_user}:{self.db_password}@"
-            f"{self.db_host}:{self.db_port}/{self.db_name}?async_fallback=True"
+            f"{self.db_host}:{self.db_port}/{self.db_name}"
         )
 
 

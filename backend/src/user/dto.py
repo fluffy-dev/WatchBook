@@ -1,7 +1,6 @@
 from pydantic import BaseModel, EmailStr, constr
 from typing import Optional, List
 
-
 class UserDTO(BaseModel):
     id: Optional[int]
     name: constr(max_length=30)
@@ -14,11 +13,9 @@ class FindUserDTO(BaseModel):
     login: constr(max_length=50) = None
     email: EmailStr = None
 
-
 class UpdateUserDTO(BaseModel):
     name: constr(max_length=30)
     login: constr(max_length=50)
-
 
 class UserPropertyDTO(BaseModel):
     id: Optional[int] = None
