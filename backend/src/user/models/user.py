@@ -1,5 +1,7 @@
+from typing import List
+
 from sqlalchemy import String
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from src.libs.base_model import Base
 
@@ -29,3 +31,5 @@ class UserModel(Base):
     login: Mapped[str] = mapped_column(String(50), unique=True, index=True)
 
     password: Mapped[str]
+
+    properties: Mapped[List["UserPropertyModel"]] = relationship("UserPropertyModel", back_populates="user", cascade="all, delete-orphan")

@@ -32,7 +32,7 @@ api: (current dir)
 
 from fastapi import APIRouter
 
-from src.user.controller import router as user_router
+from src.user.router import router as user_router
 
 router = APIRouter()
 

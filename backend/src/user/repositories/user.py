@@ -3,8 +3,7 @@ from typing import Optional, List, Type
 from sqlalchemy import select, update, delete
 from sqlalchemy.exc import IntegrityError
 
-from src.user.exceptions import AlreadyExistError, UserNotFound
-from src.user.entity import UserEntity
+from src.user.exceptions import UserAlreadyExist, UserNotFound
 from src.config.database.session import ISession
 from src.user.models.user import UserModel
 from src.user.dto import UpdateUserDTO, UserDTO, FindUserDTO
@@ -30,7 +29,7 @@ class UserRepository:
     def __init__(self, session: ISession) -> None:
         self.session: ISession = session
 
-    async def create(self, user: UserEntity) -> UserDTO:
+    async def create(self, user: UserDTO) -> UserDTO:
         """
 
         Function to create a new user from user_entity
@@ -62,7 +61,7 @@ class UserRepository:
         try:
             await self.session.commit()
         except IntegrityError:
-            raise AlreadyExistError()
+            raise UserAlreadyExist("User with same login or login already exists.")
 
         await self.session.refresh(instance)
 

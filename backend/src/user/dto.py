@@ -8,6 +8,14 @@ class UserDTO(BaseModel):
     email: EmailStr
     password: Optional[str]
 
+class PublicUserDTO(BaseModel):
+    name: constr(max_length=30)
+
+class PrivateUserDTO(BaseModel):
+    name: constr(max_length=30)
+    login: constr(max_length=50)
+    email: EmailStr
+
 class FindUserDTO(BaseModel):
     id: Optional[int] = None
     login: constr(max_length=50) = None

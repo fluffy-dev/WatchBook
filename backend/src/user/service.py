@@ -9,7 +9,6 @@ from src.user.dto import (
     UpdateUserPropertyDTO,
     UserPropertyDTO
 )
-from src.user.entity import UserEntity, UserPropertyEntity
 
 
 class UserService:
@@ -17,7 +16,7 @@ class UserService:
         self.user_repository = user_repository
         self.user_property_repository = user_property_repository
 
-    async def create_user(self, user_entity: UserEntity) -> UserDTO:
+    async def create_user(self, user_entity: UserDTO) -> UserDTO:
         return await self.user_repository.create(user_entity)
 
     async def update_user(self, dto: UpdateUserDTO) -> UserDTO:
