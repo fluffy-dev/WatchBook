@@ -31,5 +31,3 @@ class UserModel(Base):
     login: Mapped[str] = mapped_column(String(50), unique=True, index=True)
 
     password: Mapped[str]
-
-    properties: Mapped[List["UserPropertyModel"]] = relationship("UserPropertyModel", back_populates="user", cascade="all, delete-orphan")

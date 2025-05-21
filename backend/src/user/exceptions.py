@@ -7,5 +7,9 @@ class UserAlreadyExist(AlreadyExists):
 class UserNotFound(NotFound):
     pass
 
-class PropertyNotFound(NotFound):
+class UserPropertyNotFound(NotFound):
     pass
+
+class UserPropertyCreationError(Exception):
+    pass
+

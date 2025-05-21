@@ -27,5 +27,3 @@ class UserPropertyModel(Base):
     value: Mapped[str] = mapped_column(String(30))
 
     user_id: Mapped[int] = mapped_column(ForeignKey('users.id'), index=True)
-
-    user: Mapped["UserModel"] = relationship("UserModel", back_populates="properties")

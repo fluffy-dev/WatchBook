@@ -54,3 +54,8 @@ BUT, if we want to get some author books, and we sort authors by PK the first ap
 
 **ALWAYS USE TRAILING SLASH** (e.g always end the endpoint url by the slash)
 
+
+
+# Some namings
+
+properties that related to user is always UserProperties or user_properties
