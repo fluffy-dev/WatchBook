@@ -46,24 +46,28 @@ class UserPropertyRepository:
 
         return self._get_dto(result)
 
-    async def get(self, pk: int) -> Optional[UserPropertyDTO]:
-        stmt = select(UserPropertyModel).filter(UserPropertyModel.id == pk)
+    async def get(self, user_id: int) -> List[UserPropertyDTO]:
+        """
+        Get user properties by user_id as a list of UserPropertyDTOs
+
+        Args:
+            user_id (int): User id
+
+        Returns:
+            List[UserPropertyDTO]
+
+        """
+        stmt = select(UserPropertyModel).where(UserPropertyModel.user_id == user_id)
 
         raw = await self.session.execute(stmt)
-        result = raw.scalar_one_or_none()
-
-        if result is None:
-            raise UserPropertyNotFound()
-
-        return self._get_dto(result)
-
-    async def get_list(self, limit: int = None, offset: int = None) -> List[UserPropertyDTO]:
-        stmt = select(UserPropertyModel).limit(limit).offset(offset)
-        raw = await self.session.execute(stmt)
-
         results = raw.scalars().all()
 
         return [self._get_dto(result) for result in results]
+
+    async def delete(self, pk: int) -> None:
+        stmt = delete(UserPropertyModel).where(UserPropertyModel.id == pk)
+        await self.session.execute(stmt)
+        await self.session.commit()
 
     @staticmethod
     def _get_dto(instance: UserPropertyModel) -> UserPropertyDTO:

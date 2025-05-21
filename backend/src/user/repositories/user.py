@@ -17,6 +17,7 @@ class UserRepository:
         instance = UserModel(**user.model_dump())
 
         self.session.add(instance)
+
         try:
             await self.session.commit()
         except IntegrityError:
@@ -28,7 +29,7 @@ class UserRepository:
         return self._get_dto(instance)
 
     async def get(self, pk: int) -> Optional[UserDTO]:
-        stmt = select(UserModel).filter(UserModel.id == pk)
+        stmt = select(UserModel).where(UserModel.id == pk)
 
         raw = await self.session.execute(stmt)
         result = raw.scalar_one_or_none()
@@ -38,10 +39,11 @@ class UserRepository:
 
         return self._get_dto(result)
 
-    async def get_user(self, dto: FindUserDTO) -> Optional[UserDTO]:
+    async def find(self, dto: FindUserDTO) -> Optional[UserDTO]:
         stmt = select(UserModel).filter_by(**dto.model_dump(exclude_none=True))
 
-        result = (await self.session.execute(stmt)).scalar_one_or_none()
+        raw = await self.session.execute(stmt)
+        result = raw.scalar_one_or_none()
 
         if result is None:
             raise UserNotFound()
@@ -51,7 +53,8 @@ class UserRepository:
     async def get_list(self, limit: int = None, offset: int = None) -> List[UserDTO]:
         stmt = select(UserModel).offset(offset).limit(limit)
 
-        results: List[UserModel] = (await self.session.execute(stmt)).scalars().all()
+        raw = await self.session.execute(stmt)
+        results = raw.scalars().all()
 
         return [self._get_dto(row) for row in results]
 
