@@ -51,7 +51,7 @@ class UserRepository:
             UserDTO
 
         Raises:
-            UserNotFound: if user with primary key does not exist
+            UserNotFound: if user with this primary key not found
         """
         stmt = select(UserModel).where(UserModel.id == pk)
 
@@ -75,7 +75,7 @@ class UserRepository:
             UserDTO
 
         Raises:
-            UserNotFound: if user with fields that match to dto do not exist
+            UserNotFound: if user with fields that match to dto not found
         """
         stmt = select(UserModel).filter_by(**dto.model_dump(exclude_none=True))
 
@@ -117,7 +117,7 @@ class UserRepository:
             UserDTO
 
         Raises:
-            UserNotFound: if user with primary key does not exist
+            UserNotFound: if user with primary key not found
         """
         stmt = (
             update(UserModel)

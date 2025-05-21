@@ -14,6 +14,18 @@ class UserPropertyRepository:
         self.session: ISession = session
 
     async def create(self, user_property: UserPropertyDTO) -> UserPropertyDTO:
+        """
+        Create new user property by UserPropertyDTO
+
+        Args:
+            user_property: UserPropertyDTO
+
+        Returns:
+            UserPropertyDTO
+
+        Raises:
+            UserPropertyCreationError if IntegrityError occurs
+        """
         instance = UserPropertyModel(**user_property.model_dump())
         self.session.add(instance)
 
@@ -29,6 +41,19 @@ class UserPropertyRepository:
 
 
     async def update(self, dto: UpdateUserPropertyDTO, pk: int) -> UserPropertyDTO:
+        """
+        Update user property by dto and primary key
+
+        Args:
+            dto: UpdateUserPropertyDTO, data to update
+            pk: Primary key, id of user property
+
+        Returns:
+            UserPropertyDTO
+
+        Raises:
+            UserPropertyNotFound if user property with this primary key not found
+        """
         stmt = (
             update(UserPropertyModel)
             .values(**dto.model_dump(exclude_none=True))
@@ -48,10 +73,10 @@ class UserPropertyRepository:
 
     async def get(self, user_id: int) -> List[UserPropertyDTO]:
         """
-        Get user properties by user id
+        Get user properties by user_id
 
         Args:
-            user_id (int): User id
+            user_id: id of the user to get properties for
 
         Returns:
             List[UserPropertyDTO]
@@ -65,12 +90,30 @@ class UserPropertyRepository:
         return [self._get_dto(result) for result in results]
 
     async def delete(self, pk: int) -> None:
+        """
+        Delete user property by primary key
+
+        Args:
+            pk: Primary key, id of user property
+
+        Returns:
+            None
+        """
         stmt = delete(UserPropertyModel).where(UserPropertyModel.id == pk)
         await self.session.execute(stmt)
         await self.session.commit()
 
     @staticmethod
     def _get_dto(instance: UserPropertyModel) -> UserPropertyDTO:
+        """
+        Helper function to prevent repetitive code blocks
+
+        Args:
+            instance: UserPropertyModel
+
+        Returns:
+            UserPropertyDTO
+        """
         return UserPropertyDTO(
             id=instance.id,
             key=instance.key,
