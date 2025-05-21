@@ -1,9 +1,9 @@
-from typing import Optional, List, Type
+from typing import List
 
 from sqlalchemy import select, update, delete
 from sqlalchemy.exc import IntegrityError
 
-from src.user.exceptions import UserAlreadyExist, UserNotFound, UserPropertyCreationError, UserPropertyNotFound
+from src.user.exceptions import UserPropertyCreationError, UserPropertyNotFound
 from src.config.database.session import ISession
 from src.user.models.user_property import UserPropertyModel
 from src.user.dto import UserPropertyDTO, UpdateUserPropertyDTO
@@ -48,7 +48,7 @@ class UserPropertyRepository:
 
     async def get(self, user_id: int) -> List[UserPropertyDTO]:
         """
-        Get user properties by user_id as a list of UserPropertyDTOs
+        Get user properties by user id
 
         Args:
             user_id (int): User id
