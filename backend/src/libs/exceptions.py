@@ -8,3 +8,6 @@ class AlreadyExists(Exception):
 class NotFound(Exception):
     # Entity not found
     pass
+
+class PaginationError(Exception):
+    pass

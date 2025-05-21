@@ -2,8 +2,8 @@ from fastapi import Depends
 from typing import Annotated
 
 
-from src.apps.user.repositories.user_properties import UserPropertyRepository
-from src.apps.user.repositories.user import UserRepository
+from src.user.repositories.user_property import UserPropertyRepository
+from src.user.repositories.user import UserRepository
 
 
 IUserRepository = Annotated[UserRepository, Depends()]

@@ -1,6 +1,7 @@
 from typing import List
 
-from src.user.dependencies.repository import IUserRepository, IUserPropertyRepository
+from src.libs.exceptions import PaginationError
+from src.user.dependencies.repository import IUserRepository, UserRepository
 from src.user.dto import (
     UserDTO,
     UpdateUserDTO,
@@ -12,31 +13,30 @@ from src.user.dto import (
 
 
 class UserService:
-    def __init__(self, user_repository: IUserRepository, user_property_repository: IUserPropertyRepository):
-        self.user_repository = user_repository
-        self.user_property_repository = user_property_repository
+    def __init__(self, user_repository: IUserRepository):
+        self.repository: UserRepository = user_repository
 
-    async def create_user(self, user_entity: UserDTO) -> UserDTO:
-        return await self.user_repository.create(user_entity)
+    async def create(self, dto: UserDTO) -> UserDTO:
+        return await self.repository.create(dto)
 
-    async def update_user(self, dto: UpdateUserDTO) -> UserDTO:
-        return await self.user_repository.update(dto)
+    async def update(self, dto: UpdateUserDTO, pk: int) -> UserDTO:
+        return await self.repository.update(dto, pk)
 
-    async def delete_user(self, pk: int) -> None:
-        await self.user_repository.delete(pk)
+    async def find(self, dto: FindUserDTO) -> UserDTO:
+        return await self.repository.find(dto)
 
-    async def list_users(self, limit: int = None, offset: int = None) -> List[UserDTO]:
-        return await self.user_repository.get_list(limit, offset)
+    async def get(self, pk: int) -> UserDTO:
+        return await self.repository.get(pk)
 
-    async def get_user_profile(self, dto: FindUserDTO) -> UserProfileDTO:
-        user = await self.user_repository.get_user(dto)
-        user.password = None
+    async def get_list(self, limit: int = None, offset: int = None) -> List[UserDTO]:
+        if limit < 0 or offset < 0:
+            raise PaginationError("Limit and offset must be positive")
 
-        user_properties = await self.user_property_repository.get_properties(user.id)
+        return await self.repository.get_list(limit, offset)
 
-        user_profile = UserProfileDTO(**user.model_dump(exclude_none=True))
-        user_profile.properties = user_properties
+    async def update_password(self, new_password: str, pk: int) -> UserDTO:
+        return await self.repository.update_password(new_password, pk)
 
-        return user_profile
+
 
 
